@@ -1,0 +1,257 @@
+% build by DOING following: run latex, bibtex, latex, latex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+
+
+\usepackage[dvipdfm]{graphicx}  % to avoid bounding box error of images
+\usepackage{bmpsize} % to avoid bounding box error of images
+
+\usepackage{graphicx} % must be placed AFTER "\usepackage[dvipdfm]{graphicx}"
+
+\usepackage{footmisc} % to reuse footnotes
+
+\usepackage{hyperref} %szy: to create clickable links for citings
+\usepackage{color}
+
+%szy: following used for creating flow diagram:
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\usepackage[normalem]{ulem} %szy: for text strikethroughs
+\usepackage[mathscr]{euscript}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage[margin=1.0in]{geometry} %set custom margins
+
+\makeatletter
+\g@addto@macro{\endabstract}{\@setabstract}
+\newcommand{\authorfootnotes}{\renewcommand\thefootnote{\@fnsymbol\c@footnote}}%
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\thispagestyle{empty}
+\fancyhead[CE]{\begin{footnotesize}\uppercase{COVID-19}\end{footnotesize}}
+\fancyhead[CO]{\begin{footnotesize}\uppercase{S. Szymanowski}\end{footnotesize}}
+\renewcommand{\headrulewidth}{0pt}
+
+
+%--------------------------------------------------------
+\begin{document}
+
+
+\begin{center}
+
+\begin{large} % serving as \title:
+\uppercase{\textbf{COVID-19 IN THE UNITED STATES}}
+\end{large}
+
+\vspace{5mm}
+
+\normalsize
+\authorfootnotes
+\textsc{
+Rasheed Hameed
+}
+%\textsc{
+%Steve Szymanowski\textsuperscript{1}, Rasheed Hameed\textsuperscript{1}, Ridouan Bani\textsuperscript{2},
+%\\ Paul J. Gruenewald\textsuperscript{3}, Carlos Castillo-Ch\'{a}vez\textsuperscript{4}, and Anuj Mubayi\textsuperscript{1,4}
+%}
+
+\vspace{3mm}
+
+\begin{small}
+%\textsuperscript{1}DePaul University \\
+\vspace{1mm}
+%\textsuperscript{2}McGill University \\
+%845 Sherbrooke Street West, Montreal, Quebec, Canada H3A 0G4 \\
+%\vspace{1mm}
+%\textsuperscript{3}Prevention Research Center \\
+%180 Grand Ave, Oakland, CA 94612 \\
+%\vspace{1mm}
+%\textsuperscript{4}Simon A. Levin Mathematical, Computational, and Modeling Sciences Center \\
+%Arizona State University \\
+%P.O. Box 873901, Tempe, AZ, 85287-3901
+\end{small}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\par
+The covid-19 model is represented by a system of ordinary differential equations shown here~\ref{eq:covid19system}.
+\begin{align}\label{eq:covid19system} 
+	\frac{dG}{dt}& = \Lambda - \beta_1 \frac{N}{O}G - \mu G \\
+	\frac{dS}{dt}& = \beta_1 \frac{N}{O} G
+					 - \beta_2 \frac{(E+kC)}{N} S
+					 - \mu S \notag \\
+	\frac{dE}{dt}& = \beta_2 \frac{(E+kC)}{N} S
+					- \gamma E
+					- \mu E \notag \\
+	\frac{dC}{dt}& = \gamma E
+ 					-\theta_C C
+					- \mu C \notag \\
+	%\frac{dA}{dt}& = 	 \notag \\
+	\frac{dR}{dt}& = 	 \theta_C C
+					- \mu R \notag
+\end{align}
+where:
+\begin{align*}
+	N& = S+E+C+R \\
+	O& = G + N
+\end{align*}
+\par
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tikzstyle{int}=[draw, minimum size=2em]
+\tikzstyle{int}=[circle, draw, minimum size=3em]
+%\tikzstyle{init} = [pin edge={to-,thin,black}]
+\tikzset{force/.style={text width=1.5cm, text badly centered, minimum height=1cm, font=\footnotesize}}
+
+%%%\begin{figure}[h!]
+\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[->,.=stealth',shorten >=1pt,auto,node distance=2.75cm,auto,>=latex']
+    	\node [coordinate] [node distance=0.25cm] (start) {}; %szy: used as blank, starting node, to point from
+		\node [int] (G) [right of=start] {$G$};
+			%\node [coordinate] (endpointG1) [right of=G] {}; %szy: blank, ending node to point to
+			\node [coordinate] (endpointG) [below of=G] {}; %szy: blank, ending node to point to
+
+
+		\node [int] (S) [right of=G] {$S$};
+			\node [coordinate] (endpointS) [below of=S] {};
+    	
+    	\node [int] (E) [right of=S] {$E$};
+    				\node [coordinate] (endpointE) [below of=E] {};
+    				
+%		\node [int] (C) [above of=E] {$C$};
+    %				\node [coordinate] (endpointC) [right of=C] {};
+
+		\node [int] (C) [right of=E] {$C$};
+    				\node [coordinate] (endpointC) [below of=C] {};
+    				
+
+    	%\node [int] (R) [right of=E] {$R$};
+    	%			\node [coordinate] (endpointR) [below of=R] {};    	
+    	    	\node [int] (R) [right of=C] {$R$};
+    				\node [coordinate] (endpointR) [below of=R] {};    	
+		
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		%\path[every node/.style={font=\sffamily\small}]
+		\path[every node]
+				[->] (start) edge node {$\Lambda$} (G)
+				[->] (G) edge node[near end] {$\beta_1 \frac{N}{O}G$} (S)
+				[->] (G) edge node[] {$\mu G$} (endpointG)
+				
+				[->] (S) edge node {$\beta_2 \frac{(E+kH)}{N} S$} (E)
+				[->] (S) edge node[] {$\mu S$} (endpointS)
+				
+
+				[->] (E) edge node {$\gamma E$} (C)
+				[->] (E) edge node[left] {$\mu E$} (endpointE)
+
+				[->] (C) edge node[] {$\theta_C C$} (R)
+				[->] (C) edge node[] {$\mu C$} (endpointC)
+
+
+				[->] (R) edge node[] {$\mu R$} (endpointR)
+				;
+
+
+		\node [force] (label1) at (2.80,3.75) {General\\Population}; % [force] forces the "\\"
+		\node [force] (label2) at (5.00,3.75) {At-Risk\\Population};
+
+		\draw[-,dashed] (3.90,4.35) -- (3.90,-4.50);  
+						
+		\end{tikzpicture}
+	\end{center}
+	\caption{COVID-19 Model}
+	\label{model_diagram}
+\end{figure}
+
+
+
+\begin{minipage}{1.0\textwidth}
+	\begin{table}[H]
+		\centering
+		\scalebox{0.8} { % use scale to size table
+		\begin{tabular}{|c|l|c|c|}
+			\hline
+
+			\textbf{Variables} & \textbf{Description} & \textbf{Initial Value}\footnote{total count} & \textbf{Source} \\
+		  	\hline
+			$G$ & General Population of US & 330,511,531 & \cite{CA_pop_1980} \\ \hline
+			%%% NOTES on how got initial value for G: data from 1980 (closest to 1983)
+
+			$S$ & susceptible & 79,834,735 & \cite{CA_ACS_poverty} \cite{CA_ACS_edu} \\ \hline
+			%%% NOTES on how got initial value for S:
+			%%% used 2008-2012 data to get an average rate  \\
+			%%% data from citation is ``below poverty: 11.5\%'' \cite{CA_ACS_poverty}\\
+			%%% data from citation is ``education attainment \ldots : 10.3\% + 8.7\% = 19.0\%''  \cite{CA_ACS_edu}\\
+			%%% $[(0.115 + 0.19)/  2 =  0.1525]*23667902=3609400$
+
+			$E$ & Expected population of individuals infected with virus & 20,000 & derived \\ \hline
+			%%% NOTES on how got initial value for U:
+			%%% derived from: b/c I assume 6600/0.33 and 0.33 of U goto H \\
+
+			$C$ & Confirmed cases of Coronavirus & 100,000 & derived \\ \hline
+			%%% NOTES on how got initial value for H:
+			%%% used admissions data for 1983 from data used for fitting \\	
+
+
+			$R$ & Recovered & 100 & est \\ \hline
+			%%% NOTES on how got initial value for R:
+			%%% guess--using "H" as bound: $0.25*H(0)=0.25*6600=1650$ \\
+	
+			$N$ & at-risk population & 79,834,735 & derived \\ \hline
+			$O$ & total population & 330,511,531  & derived \\ \hline
+			& & & \\ \hline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+			%\textbf{Parameter} & \textbf{Description} & \textbf{Value \footnote{1 time unit = 1 year}} & \textbf{Source} \\
+			\textbf{Parameter} & \textbf{Description} & \textbf{Values \& Units \footnote{1 time unit = 1 year}} & \textbf{Source} \\
+		  	\hline
+			$\Lambda$ & birth rate & 435,722 people per year & \cite{CA_pop_birth_1983} \\ \hline
+			$\mu$ & mortality rate & $\mathcal{U}[0.012, 0.013]$ \footnote{parameter sampled from the Uniform distribution in the given range\label{uniform_sample}} per person per year & \cite{CA_avg_life_1981} \\ \hline
+	
+			
+			$\psi$ & release rate & $\mathcal{U}[0.124, 0.164]$ \footref{uniform_sample} per person per year &  \cite{CA_prison_parole} \\ \hline
+			$\gamma$ & rehab admissions rate & $\mathcal{E}(0.304)$ \footnote{parameter sampled from the Exponential distribution with the given rate parameter} per person per year  &  \cite{gruenewald2010assessing} \\ \hline
+ 			$\theta_H$ & quitting rate (due to rehab success) & $0.33$ per person per year &  \cite{CA_FactSheetMeth} \\ \hline
+ 			$\eta$ & relapse rate & $0.1894$ per person per year &  \cite{brecht2000predictors} \\ \hline
+ 			$\beta_1$ & growth factors of at-risk population & $0.245$ dimensionless &  \cite{gruenewald2013mapping} \\ \hline
+ 			$\theta_U$ & quitting rate (on their own) & $\mathcal{U}[0, 0.33]$ \footref{uniform_sample} per person per year &  est \\ \hline
+ 			$p$ & proportion released that successfully quit & $\mathcal{U}[0.8, 0.9]$ \footref{uniform_sample} dimensionless &  est \\ \hline
+ 			$k$ & reduction in transmission intensity of H & $\mathcal{U}[0, 1]$ \footref{uniform_sample} dimensionless  & est \\ \hline
+ 			$\beta_2$ & transmission intensity rate & $\mathcal{N}(\mu=0.75, \sigma=0.47)$ \footnote{parameter sampled from the Normal distribution with the given mean and standard deviation} interactions per person per year & \cite{mubayi2011types} \\ \hline 			
+		\end{tabular}
+	
+	} % end \scalebox
+
+\caption{Brief Summary of State Variables \& Parameters}
+\label{table:state_vars_params_brief}
+
+\end{table}
+
+\end{minipage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
